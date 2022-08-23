@@ -5,7 +5,7 @@ import { history } from "../../App";
 
 export default function Film_Flip(props) {
   const { film } = props;
-  
+
   return (
     <div className="flip-card mt-2">
       <div className="flip-card-inner">
@@ -50,17 +50,17 @@ export default function Film_Flip(props) {
                 <PlayCircleOutlined style={{ fontSize: "42px" }} />
               </div>
               <div className="text-xl mt-2 font-bold">{film.tenPhim}</div>
+              <div
+                onClick={() => {
+                  history.push(`/detail/${film.maPhim}`);
+                }}
+                className="bg-indigo-300 text-center cursor-pointer py-2 my-2 text-white w-36 mx-auto font-bold "
+              >
+                Đặt vé
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        onClick={() => {
-          history.push(`/detail/${film.maPhim}`);
-        }}
-        className="bg-indigo-300 text-center cursor-pointer py-2 my-2 text-success-50 font-bold "
-      >
-        Đặt vé
       </div>
     </div>
   );

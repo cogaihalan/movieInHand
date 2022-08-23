@@ -23,24 +23,26 @@ const ManageFilmsReducer = (state = initialState, action) => {
       };
 
     case SET_FILMS_DANG_CHIEU:
-      state.filterFilms = [...state.filterFilms].filter(
+      state.dangChieu = !state.dangChieu;
+      state.listFilms = [...state.filterFilms].filter(
         (film) => film.dangChieu === state.dangChieu
       );
+      if (state.sapChieu === true) {
+        state.sapChieu = false;
+      }
       return {
         ...state,
-        dangChieu: !state.dangChieu,
-       
-        listFilms: state.filterFilms,
       };
     case SET_FILMS_SAP_CHIEU:
-      state.filterFilms = [...state.filterFilms].filter(
-        (film) => film.dangChieu === false && film.sapChieu === true
+      state.sapChieu = !state.sapChieu;
+      state.listFilms = [...state.filterFilms].filter(
+        (film) => film.sapChieu === state.sapChieu
       );
+      if (state.dangChieu === true) {
+        state.dangChieu = false;
+      }
       return {
         ...state,
-        dangChieu: false,
-        sapChieu: !state.sapChieu,
-        listFilms: state.filterFilms,
       };
     default:
       return { ...state };

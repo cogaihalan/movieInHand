@@ -11,21 +11,14 @@ export default function Header() {
           aria-label="Back to homepage"
           className="flex items-center p-2"
         >
-          <img
-            src="logo192.png"
-            alt="logo"
-            style={{ width: "80px", height: "80px" }}
-          />
-          <span className="ml-2 text-white font-bold text-xl uppercase">
-            Movie
-          </span>
+          <img src="logo1.png" alt="logo" width={265} />
         </a>
         <ul className="items-stretch hidden space-x-3 lg:flex">
           <li className="flex">
             <NavLink
               to="/home"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1 dark:border-transparent text-white "
+              className="flex items-center px-4 -mb-1  text-white "
             >
               Home
             </NavLink>
@@ -34,7 +27,7 @@ export default function Header() {
             <NavLink
               to="/contact"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1 dark:border-transparent text-white"
+              className="flex items-center px-4 -mb-1  text-white"
             >
               Contact
             </NavLink>
@@ -43,7 +36,7 @@ export default function Header() {
             <NavLink
               to="news"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1 dark:border-transparent text-white"
+              className="flex items-center px-4 -mb-1  text-white"
             >
               News
             </NavLink>

@@ -18,3 +18,23 @@ code {
 .ant-carousel .slick-dots {
   margin-left: 0 !important;
 }
+.ant-tabs {
+  margin: 0 auto !important;
+}
+.home__list-films {
+  background: linear-gradient(
+    to bottom,
+    #000000,
+    #0d070a,
+    #150e14,
+    #19141c,
+    #1c1924,
+    #1c1924,
+    #1c1924,
+    #1c1924,
+    #19141c,
+    #150e14,
+    #0d070a,
+    #000000
+  );
+}
