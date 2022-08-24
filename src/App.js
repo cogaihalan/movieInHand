@@ -5,9 +5,12 @@ import Contact from "./pages/Contact/Contact";
 import News from "./pages/News/News";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-
 import { HomeTemplate } from "./templates/HomeTemplate/HomeTemplate";
-
+import Detail from "./pages/Detail/Detail";
+import { CheckOutTemplate } from "./templates/CheckOutTemplate/CheckOutTemplate";
+import { UserTemplate } from "./templates/UserTemplate/UserTemplate";
+import Checkout from "./pages/Checkout/Checkout";
+import { Suspense, lazy } from "react"; // dùng để lazy loading cho giao diện tĩnh
 export const history = createBrowserHistory();
 function App() {
   return (
@@ -17,8 +20,18 @@ function App() {
         <HomeTemplate path="/contact" exact Component={Contact}></HomeTemplate>
         <HomeTemplate path="/home" exact Component={Home}></HomeTemplate>
         <HomeTemplate path="/news" exact Component={News}></HomeTemplate>
-        <Route path="/login" exact Component={Login}></Route>
+        <HomeTemplate
+          path="/detail/:id"
+          exact
+          Component={Detail}
+        ></HomeTemplate>
+        <UserTemplate path="/login" exact Component={Login}></UserTemplate>
         <Route path="/register" exact Component={Register}></Route>
+        <CheckOutTemplate
+          path="/chechout/:id"
+          exact
+          Component={Checkout}
+        ></CheckOutTemplate>
       </Switch>
     </Router>
   );

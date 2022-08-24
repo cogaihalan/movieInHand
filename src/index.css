@@ -11,7 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+@import "@tsamantanis/react-glassmorphism/dist/index.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,4 +37,7 @@ code {
     #0d070a,
     #000000
   );
+}
+p {
+  margin-bottom: 0 !important;
 }

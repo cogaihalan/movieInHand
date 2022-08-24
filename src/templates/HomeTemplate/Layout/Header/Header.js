@@ -47,7 +47,7 @@ export default function Header() {
             to="/login"
             className="self-center px-8 py-3 rounded text-white"
           >
-            Sign in
+            Log in
           </NavLink>
           <NavLink
             to="./register"

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getListFilms } from "../../redux/actions/ManageFilmActions";
 import { getCinemasSystem } from "../../redux/actions/ManageCinemasActions";
 // import Film from "../../components/Film/Film";
+import HomeCarousel from "../../templates/HomeTemplate/Layout/HomeCarousel/HomeCarousel";
 import MultipleRows from "../../components/React_Slick/MultipleRows";
 export default function Home() {
   const dispatch = useDispatch();
@@ -18,17 +19,21 @@ export default function Home() {
     (stateList) => stateList.ManageCinemasReducer
   );
   return (
-    <div className="home">
-      <div className="w-full home__list-films">
-        <div className="container mx-auto">
-          <section className="text-gray-600 body-font">
-            <div className="container px-5 py-24 mx-auto">
-              <MultipleRows listFilms={listFilms}></MultipleRows>
-            </div>
-          </section>
+    <div>
+      <HomeCarousel></HomeCarousel>
+
+      <div className="home">
+        <div className="w-full home__list-films">
+          <div className="container mx-auto">
+            <section className="text-gray-600 body-font">
+              <div className="container px-5 py-24 mx-auto">
+                <MultipleRows listFilms={listFilms}></MultipleRows>
+              </div>
+            </section>
+          </div>
         </div>
+        <HomeMenu cinemasSystem={cinemasSystem}></HomeMenu>
       </div>
-      <HomeMenu cinemasSystem={cinemasSystem}></HomeMenu>
     </div>
   );
 }

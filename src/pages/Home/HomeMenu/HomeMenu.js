@@ -3,9 +3,7 @@ import { Tabs } from "antd";
 import moment from "moment";
 const { TabPane } = Tabs;
 export default function HomeMenu(props) {
-  const { cinemasSystem } = props;
-  console.log(cinemasSystem);
-  const renderCinemasSystem = () => {
+  const { cinemasSystem } = props;  const renderCinemasSystem = () => {
     return cinemasSystem?.map((cinema, index) => {
       return (
         <TabPane
@@ -90,7 +88,7 @@ export default function HomeMenu(props) {
   };
   return (
     <>
-      <div className="py-11">
+      <div className="py-12">
         <Tabs className="w-3/4  " tabPosition="left">
           {renderCinemasSystem()}
         </Tabs>

@@ -2,7 +2,7 @@ import React from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import "./Film_Flip.css";
 import { history } from "../../App";
-
+import { NavLink } from "react-router-dom";
 export default function Film_Flip(props) {
   const { film } = props;
 
@@ -50,14 +50,20 @@ export default function Film_Flip(props) {
                 <PlayCircleOutlined style={{ fontSize: "42px" }} />
               </div>
               <div className="text-xl mt-2 font-bold">{film.tenPhim}</div>
-              <div
+              {/* <div
                 onClick={() => {
                   history.push(`/detail/${film.maPhim}`);
                 }}
                 className="bg-indigo-300 text-center cursor-pointer py-2 my-2 text-white w-36 mx-auto font-bold "
               >
                 Đặt vé
-              </div>
+              </div> */}
+              <NavLink
+                to={`/detail/${film.maPhim}`}
+                className="bg-indigo-300 block text-center cursor-pointer py-2 my-2 text-white w-36 mx-auto font-bold "
+              >
+                Đặt vé
+              </NavLink>
             </div>
           </div>
         </div>

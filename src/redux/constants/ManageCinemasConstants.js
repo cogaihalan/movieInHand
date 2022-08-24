@@ -1,1 +1,2 @@
 export const GET_CINEMAS_SYSTEM = "GET_CINEMAS_SYSTEM";
+export const GET_FILM_DETAIL = "GET_FILM_DETAIL";
