@@ -4,9 +4,7 @@ import { USER_LOGIN } from "../../utils/settings/config";
 
 export const UserTemplate = (props) => {
   const { Component, ...restProps } = props;
-  if (!localStorage.getItem(USER_LOGIN)) {
-    return <Redirect to="/login"></Redirect>;
-  }
+ 
   return (
     <Route
       {...restProps}

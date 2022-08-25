@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { dangKy } from "../../redux/actions/ManageUserActions";
-export default function Login() {
+import { history } from "../../App";
+export default function Login(props) {
   const dispatch = useDispatch();
   const loginFormik = useFormik({
     initialValues: {
@@ -11,7 +12,7 @@ export default function Login() {
       matKhau: "",
     },
     onSubmit: (values) => {
-      // dispatch(dangKy(values));
+      dispatch(dangKy(values));
     },
   });
   return (
@@ -35,7 +36,7 @@ export default function Login() {
                 type="text/css"
                 dangerouslySetInnerHTML={{
                   __html:
-                    "\n                      .st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                  ",
+                    "\n.st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                  ",
                 }}
               />
               <g transform="matrix( 1, 0, 0, 1, 0,0) ">
@@ -100,6 +101,10 @@ xl:text-bold"
             </div>
             <div className="mt-10">
               <button
+                onClick={() => {
+                  history.goBack();
+                }}
+                type="submit"
                 className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
             font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
             shadow-lg"

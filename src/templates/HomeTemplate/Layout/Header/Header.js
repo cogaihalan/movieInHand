@@ -5,14 +5,14 @@ export default function Header() {
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100 fixed w-full bg-black bg-opacity-70 z-10">
       <div className="container flex justify-between h-16 mx-auto">
-        <a
+        <NavLink
+          to="/"
           rel="noopener noreferrer"
-          href
           aria-label="Back to homepage"
           className="flex items-center p-2"
         >
           <img src="logo1.png" alt="logo" width={265} />
-        </a>
+        </NavLink>
         <ul className="items-stretch hidden space-x-3 lg:flex">
           <li className="flex">
             <NavLink

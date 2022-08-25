@@ -1,9 +1,9 @@
 import { USER_LOGIN } from "../../utils/settings/config";
 import { SIGN_IN, SIGN_UP } from "../constants/ManageUserConstants";
 
-// let user = localStorage.getItem(USER_LOGIN, JSON.parse(USER_LOGIN));
+let user = JSON.parse(localStorage.getItem(USER_LOGIN));
 const initialState = {
-  userLogin: {},
+  userLogin: user,
 };
 
 const ManageUserReducer = (state = initialState, action) => {

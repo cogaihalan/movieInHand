@@ -53,7 +53,7 @@ export default function Detail(props) {
                   {cinema.lichChieuPhim?.map((gioChieu, index) => {
                     return (
                       <NavLink
-                        to="/checkout/"
+                        to={`/checkout/${gioChieu.maLichChieu}`}
                         key={index}
                         className="p-2 font-semibold rounded bg-slate-500 hover:text-zinc-800 text-white text-center"
                       >
@@ -113,11 +113,11 @@ export default function Detail(props) {
                   <div className="fill"></div>
                 </div>
               </div>
-              <Rate
+              {/* <Rate
                 allowHalf
                 defaultValue={Number(filmDetail.danhGia / 2)}
                 style={{ color: "mediumseagreen" }}
-              />
+              /> */}
             </div>
           </div>
           <div className="film-schedule  p-5 mx-auto bg-white bg-opacity-70 mt-16">
