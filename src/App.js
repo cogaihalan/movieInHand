@@ -26,7 +26,11 @@ function App() {
           Component={Detail}
         ></HomeTemplate>
         <UserTemplate path="/login" exact Component={Login}></UserTemplate>
-        <Route path="/register" exact Component={Register}></Route>
+        <UserTemplate
+          path="/register"
+          exact
+          Component={Register}
+        ></UserTemplate>
         <CheckOutTemplate
           path="/checkout/:id"
           exact

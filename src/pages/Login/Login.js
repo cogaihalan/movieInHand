@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { dangKy } from "../../redux/actions/ManageUserActions";
+import { dangNhap } from "../../redux/actions/ManageUserActions";
 import { history } from "../../App";
 export default function Login(props) {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export default function Login(props) {
       matKhau: "",
     },
     onSubmit: (values) => {
-      dispatch(dangKy(values));
+      dispatch(dangNhap(values));
     },
   });
   return (

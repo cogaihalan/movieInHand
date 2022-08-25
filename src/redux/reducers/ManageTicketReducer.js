@@ -1,4 +1,8 @@
-import { DAT_VE, GET_TICKET_ROOM } from "../constants/ManageTicketConstants";
+import {
+  DAT_VE,
+  GET_TICKET_ROOM,
+  HUY_GHE,
+} from "../constants/ManageTicketConstants";
 
 const initialState = {
   ticketRoom: {},
@@ -20,6 +24,11 @@ const ManageTicketReducer = (state = initialState, action) => {
         danhSachGheCapNhat.push(action.gheDuocChon);
       }
       return { ...state, danhSachGheDangDat: danhSachGheCapNhat };
+    case HUY_GHE:
+      state.danhSachGheDangDat = [...state.danhSachGheDangDat].filter(
+        (item) => item.maGhe !== action.maGhe
+      );
+      return { ...state };
     default:
       return state;
   }

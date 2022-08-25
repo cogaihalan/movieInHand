@@ -6,6 +6,9 @@ class ManageTicketService extends BaseService {
       `/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`
     );
   };
+  datVe = (danhSachVe) => {
+    return this.post(`/api/QuanLyDatVe/DatVe`, danhSachVe);
+  };
 }
 
 export const QLTicketService = new ManageTicketService();

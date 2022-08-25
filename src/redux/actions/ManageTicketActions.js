@@ -20,3 +20,14 @@ export const getTicketRoom = (maLichChieu) => {
     }
   };
 };
+
+export const datVe = (danhSachVe) => {
+  return async (dispatch) => {
+    try {
+      const { data, status } = await QLTicketService.datVe(danhSachVe);
+      console.log({ data, status });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
