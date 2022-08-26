@@ -10,7 +10,7 @@ import {
   displayLoadingAction,
   hideLoadingAction,
 } from "../actions/LoadingActions";
-import { connection } from "../..";
+import { connection } from "../../index";
 export const getTicketRoom = (maLichChieu) => {
   return async (dispatch) => {
     try {
@@ -30,12 +30,18 @@ export const getTicketRoom = (maLichChieu) => {
 };
 
 export const datVe = (danhSachVe) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       dispatch(displayLoadingAction());
       await QLTicketService.datVe(danhSachVe);
       await dispatch(getTicketRoom(danhSachVe.maLichChieu));
       await dispatch(hideLoadingAction());
+      const user = getState().ManageUserReducer.userLogin;
+      connection.invoke(
+        "datGheThanhCong",
+        user.taiKhoan,
+        danhSachVe.maLichChieu
+      );
       await dispatch({ type: CHUYEN_TAB, number: "2" });
     } catch (err) {
       dispatch(hideLoadingAction());

@@ -13,7 +13,7 @@ import {
   HUY_GHE,
   SHOW_GHE_KHACH_DAT,
 } from "../../redux/constants/ManageTicketConstants";
-import { CloseOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined, UserOutlined, CheckOutlined } from "@ant-design/icons";
 import { Tabs } from "antd";
 import { layThongTinTaiKhoan } from "../../redux/actions/ManageUserActions";
 import { connection } from "../..";
@@ -21,26 +21,33 @@ const { TabPane } = Tabs;
 function Checkout(props) {
   const dispatch = useDispatch();
   const ticketRoomID = props.match.params.id;
+  const { ticketRoom, danhSachGheDangDat, danhSachGheKhachDat } = useSelector(
+    (stateList) => stateList.ManageTicketReducer
+  );
+  const { danhSachGhe, thongTinPhim } = ticketRoom;
+  const user = useSelector(
+    (stateList) => stateList.ManageUserReducer.userLogin
+  );
   useEffect(() => {
     dispatch(getTicketRoom(ticketRoomID));
+    // render lại khi có 1 client đặt vé thành công
+    connection.on("datVeThanhCong", () => {
+      dispatch(getTicketRoom(ticketRoomID));
+    });
+    // Gọi lên server để lấy dữ liệu phòng vé khi client chọn ghế
     connection.invoke("loadDanhSachGhe", ticketRoomID);
-
+    // render ra các ghế mà khach chọn
     connection.on("loadDanhSachGheDaDat", (dsGheDaDat) => {
-      // const listMaGheKhachDat = _.map(dsGheDaDat, (gheDaDat) => {
-      //   _.pick(JSON.parse(gheDaDat.danhSachGhe), ["maGhe", "giaVe"]);
-      // });
-      // // const danhSachVe = _.map(danhSachGheDangDat, (item) =>
-      // //             _.pick(item, ["maGhe", "giaVe"])
-      // //           );
-      // console.log(listMaGheKhachDat);
+      // Lấy ra các users không phải mình và lọc mảng lấy ra danh sách ghế
+      const dsGheDaDatUpdate = [...dsGheDaDat]
+        .filter((item) => item.taiKhoan !== user.taiKhoan)
+        .reduce((result, item) => {
+          const arrGhe = JSON.parse(item.danhSachGhe);
+          return [...result, ...arrGhe];
+        }, []);
       dispatch({
         type: SHOW_GHE_KHACH_DAT,
-        danhSachGheKhachDat: [
-          { maGhe: 48223 },
-          { maGhe: 48224 },
-          { maGhe: 48225 },
-          { maGhe: 48226 },
-        ],
+        danhSachGheKhachDat: dsGheDaDatUpdate,
       });
     });
     window.addEventListener("beforeunload", clearGhe);
@@ -50,13 +57,6 @@ function Checkout(props) {
     };
   }, []);
 
-  const { ticketRoom, danhSachGheDangDat, danhSachGheKhachDat } = useSelector(
-    (stateList) => stateList.ManageTicketReducer
-  );
-  const { danhSachGhe, thongTinPhim } = ticketRoom;
-  const user = useSelector(
-    (stateList) => stateList.ManageUserReducer.userLogin
-  );
   const clearGhe = () => {
     connection.on("huyGhe", user.taiKhoan, ticketRoomID);
   };
@@ -108,6 +108,61 @@ function Checkout(props) {
               className={`${style["trapezoid"]} ${style["trapezoid-up"]}`}
             ></div>
             <div>{renderDanhSachGhe()}</div>
+            <div className="mt-1 flex justify-center">
+              <table className="divide-y divide-gray-200">
+                <thead className="bg-gray-50  ">
+                  <tr>
+                    <th className="border-r-2 p-1 border-r-white">Ghế chưa đặt</th>
+                    <th className="border-r-2 p-1 border-r-white">Ghế đang đặt</th>
+                    <th className="border-r-2 p-1 border-r-white">Ghế vip</th>
+                    <th className="border-r-2 p-1 border-r-white">Ghế đã đặt</th>
+                    <th className="border-r-2 p-1 border-r-white">Ghế mình đặt</th>
+                    <th className="border-r-2 p-1 border-r-white">
+                      Ghế khách đang đặt
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td>
+                      <button className="ghe  text-center">
+                        {" "}
+                        <CheckOutlined />{" "}
+                      </button>{" "}
+                    </td>
+                    <td>
+                      <button className="ghe gheDangDat  text-center">
+                        {" "}
+                        <CheckOutlined />
+                      </button>{" "}
+                    </td>
+                    <td>
+                      <button className="ghe gheVIP  text-center">
+                        <CheckOutlined />
+                      </button>{" "}
+                    </td>
+                    <td>
+                      <button className="ghe gheDaDat  text-center">
+                        {" "}
+                        <CheckOutlined />{" "}
+                      </button>{" "}
+                    </td>
+                    <td>
+                      <button className="ghe gheUserDat  text-center">
+                        {" "}
+                        <UserOutlined />{" "}
+                      </button>{" "}
+                    </td>
+                    <td>
+                      <button className="ghe gheKhachDat  text-center">
+                        {" "}
+                        <CheckOutlined />{" "}
+                      </button>{" "}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div className="col-span-3">
@@ -274,7 +329,7 @@ export default function Ticket(props) {
     (stateList) => stateList.ManageTicketReducer
   );
   return (
-    <div className="px-12 py-8">
+    <div className="px-12 py-6  ">
       <Tabs
         tabPosition="top"
         defaultActiveKey="1"
