@@ -37,8 +37,8 @@ export default function Detail(props) {
         >
           {cinemas.cumRapChieu.map((cinema, index) => {
             return (
-              <div className="px-3 mt-5">
-                <div key={index} className="flex gap-5 items-center ">
+              <div key={index} className="px-3 mt-5">
+                <div className="flex gap-5 items-center ">
                   <img
                     src={cinema.hinhAnh}
                     alt={cinema.tenCumRap}

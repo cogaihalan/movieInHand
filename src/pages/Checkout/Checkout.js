@@ -1,30 +1,72 @@
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import _ from "lodash";
-import { datVe, getTicketRoom } from "../../redux/actions/ManageTicketActions";
+import {
+  datGhe,
+  datVe,
+  getTicketRoom,
+} from "../../redux/actions/ManageTicketActions";
 import style from "./Checkout.module.css";
 import "./Checkout.css";
-import { DAT_VE, HUY_GHE } from "../../redux/constants/ManageTicketConstants";
+import {
+  CHUYEN_TAB,
+  HUY_GHE,
+  SHOW_GHE_KHACH_DAT,
+} from "../../redux/constants/ManageTicketConstants";
 import { CloseOutlined, UserOutlined } from "@ant-design/icons";
 import { Tabs } from "antd";
 import { layThongTinTaiKhoan } from "../../redux/actions/ManageUserActions";
+import { connection } from "../..";
 const { TabPane } = Tabs;
 function Checkout(props) {
   const dispatch = useDispatch();
   const ticketRoomID = props.match.params.id;
   useEffect(() => {
     dispatch(getTicketRoom(ticketRoomID));
+    connection.invoke("loadDanhSachGhe", ticketRoomID);
+
+    connection.on("loadDanhSachGheDaDat", (dsGheDaDat) => {
+      // const listMaGheKhachDat = _.map(dsGheDaDat, (gheDaDat) => {
+      //   _.pick(JSON.parse(gheDaDat.danhSachGhe), ["maGhe", "giaVe"]);
+      // });
+      // // const danhSachVe = _.map(danhSachGheDangDat, (item) =>
+      // //             _.pick(item, ["maGhe", "giaVe"])
+      // //           );
+      // console.log(listMaGheKhachDat);
+      dispatch({
+        type: SHOW_GHE_KHACH_DAT,
+        danhSachGheKhachDat: [
+          { maGhe: 48223 },
+          { maGhe: 48224 },
+          { maGhe: 48225 },
+          { maGhe: 48226 },
+        ],
+      });
+    });
+    window.addEventListener("beforeunload", clearGhe);
+    return () => {
+      clearGhe();
+      window.removeEventListener("beforeunload", clearGhe);
+    };
   }, []);
-  const { ticketRoom, danhSachGheDangDat } = useSelector(
+
+  const { ticketRoom, danhSachGheDangDat, danhSachGheKhachDat } = useSelector(
     (stateList) => stateList.ManageTicketReducer
   );
   const { danhSachGhe, thongTinPhim } = ticketRoom;
   const user = useSelector(
     (stateList) => stateList.ManageUserReducer.userLogin
   );
+  const clearGhe = () => {
+    connection.on("huyGhe", user.taiKhoan, ticketRoomID);
+  };
   const renderDanhSachGhe = () => {
     return danhSachGhe?.map((ghe, index) => {
       const classGheVip = ghe.loaiGhe === "Vip" ? "gheVIP" : "";
+      const classGheKhachDat =
+        danhSachGheKhachDat.findIndex((item) => item.maGhe === ghe.maGhe) !== -1
+          ? "gheKhachDat"
+          : "";
       const classGheUserDat =
         ghe.taiKhoanNguoiDung === user.taiKhoan ? "gheUserDat" : "";
       const classGheDaDat = ghe.daDat ? "gheDaDat" : "";
@@ -36,10 +78,10 @@ function Checkout(props) {
         <Fragment key={index}>
           <button
             onClick={() => {
-              dispatch({ type: DAT_VE, gheDuocChon: ghe });
+              dispatch(datGhe(ghe, ticketRoomID));
             }}
-            disabled={ghe.daDat}
-            className={`ghe ${classGheDaDat} ${classGheVip} ${classGheDangDat} ${classGheUserDat}`}
+            disabled={ghe.daDat || classGheKhachDat !== ""}
+            className={`ghe ${classGheDaDat} ${classGheVip} ${classGheDangDat} ${classGheUserDat} ${classGheKhachDat}`}
           >
             {ghe.daDat ? (
               classGheUserDat !== "" ? (
@@ -138,16 +180,12 @@ function Checkout(props) {
                 const danhSachVe = _.map(danhSachGheDangDat, (item) =>
                   _.pick(item, ["maGhe", "giaVe"])
                 );
-                console.log({
-                  maLichChieu: +ticketRoomID,
-                  danhSachVe,
-                });
-                // dispatch(
-                //   datVe({
-                //     maLichChieu: +ticketRoomID,
-                //     danhSachVe,
-                //   })
-                // );
+                dispatch(
+                  datVe({
+                    maLichChieu: +ticketRoomID,
+                    danhSachVe,
+                  })
+                );
               }}
               className="py-3 bg-green-500 hover:bg-green-600 rounded-lg cursor-pointer text-white text-center btn btn-bookingTicket font-bold text-xl "
             >
@@ -230,10 +268,21 @@ function TicketResult(props) {
     </section>
   );
 }
-export default function (props) {
+export default function Ticket(props) {
+  const dispatch = useDispatch();
+  const { tabActive } = useSelector(
+    (stateList) => stateList.ManageTicketReducer
+  );
   return (
     <div className="px-12 py-8">
-      <Tabs tabPosition="top" defaultActiveKey="1">
+      <Tabs
+        tabPosition="top"
+        defaultActiveKey="1"
+        onChange={(key) => {
+          dispatch({ type: CHUYEN_TAB, number: key });
+        }}
+        activeKey={tabActive}
+      >
         <TabPane tab="01 CHỌN GHẾ & THANH TOÁN" key="1">
           <Checkout {...props}></Checkout>
         </TabPane>

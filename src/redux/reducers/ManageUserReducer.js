@@ -161,6 +161,7 @@ const ManageUserReducer = (state = initialState, action) => {
       return { ...state };
     case GET_USER_DETAIL:
       return { ...state, userDetail: action.userDetail };
+    
     default:
       return state;
   }

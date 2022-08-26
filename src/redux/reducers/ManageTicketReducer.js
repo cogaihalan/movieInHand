@@ -1,12 +1,17 @@
 import {
+  CHUYEN_TAB,
   DAT_VE,
+  DAT_VE_HOAN_TAT,
   GET_TICKET_ROOM,
   HUY_GHE,
+  SHOW_GHE_KHACH_DAT,
 } from "../constants/ManageTicketConstants";
 
 const initialState = {
   ticketRoom: {},
   danhSachGheDangDat: [],
+  danhSachGheKhachDat: [],
+  tabActive: "1",
 };
 
 const ManageTicketReducer = (state = initialState, action) => {
@@ -29,6 +34,12 @@ const ManageTicketReducer = (state = initialState, action) => {
         (item) => item.maGhe !== action.maGhe
       );
       return { ...state };
+    case CHUYEN_TAB:
+      return { ...state, tabActive: action.number };
+    case DAT_VE_HOAN_TAT:
+      return { ...state, danhSachGheDangDat: [] };
+    case SHOW_GHE_KHACH_DAT:
+      return { ...state, danhSachGheKhachDat: action.danhSachGheKhachDat };
     default:
       return state;
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { dangKy } from "../../redux/actions/ManageUserActions";
 import { history } from "../../App";
@@ -12,9 +13,26 @@ export default function SignUp(props) {
       matKhau: "",
       email: "",
       soDt: "",
-      maNhom: "",
+      maNhom: "GP01",
       hoTen: "",
     },
+    validationSchema: Yup.object().shape({
+      taiKhoan: Yup.string().required(),
+      matKhau: Yup.string()
+        .required()
+        .min(6, "Your password must have at least 6 characters")
+        .max(32, "Your password just has at most 32 characters"),
+      hoTen: Yup.string().required(),
+      soDt: Yup.string()
+        .required()
+        .matches(
+          /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
+          "Phone number is not valid"
+        ),
+      email: Yup.string()
+        .required()
+        .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Email is not valid"),
+    }),
     onSubmit: (values) => {
       dispatch(dangKy(values));
     },
@@ -79,6 +97,11 @@ xl:text-bold"
                 placeholder=""
                 type="text"
               />
+              <span className="text text-red-500">
+                {registerFormik.touched && registerFormik.values.taiKhoan
+                  ? registerFormik.errors.taiKhoan
+                  : ""}
+              </span>
             </div>
             <div className="mt-8">
               <div className="text-sm font-bold text-gray-700 tracking-wide">
@@ -91,6 +114,11 @@ xl:text-bold"
                 placeholder=""
                 type="password"
               />
+              <span className="text text-red-500">
+                {registerFormik.touched && registerFormik.values.matKhau
+                  ? registerFormik.errors.matKhau
+                  : ""}
+              </span>
             </div>
             <div className="mt-8">
               <div className="text-sm font-bold text-gray-700 tracking-wide">
@@ -103,6 +131,11 @@ xl:text-bold"
                 placeholder=""
                 type="text"
               />
+              <span className="text text-red-500">
+                {registerFormik.touched && registerFormik.values.hoTen
+                  ? registerFormik.errors.hoTen
+                  : ""}
+              </span>
             </div>
             <div className="mt-8">
               <div className="text-sm font-bold text-gray-700 tracking-wide">
@@ -115,6 +148,11 @@ xl:text-bold"
                 placeholder="mike@gmail.com"
                 type="email"
               />
+              <span className="text text-red-500">
+                {registerFormik.touched && registerFormik.values.email
+                  ? registerFormik.errors.email
+                  : ""}
+              </span>
             </div>
             <div className="mt-8">
               <div className="text-sm font-bold text-gray-700 tracking-wide">
@@ -127,6 +165,11 @@ xl:text-bold"
                 placeholder=""
                 type="text"
               />
+              <span className="text text-red-500">
+                {registerFormik.touched && registerFormik.values.soDt
+                  ? registerFormik.errors.soDt
+                  : ""}
+              </span>
             </div>
             <div className="mt-10">
               <button
@@ -146,7 +189,7 @@ xl:text-bold"
             <span className="mr-4">Bạn đã có tài khoản ?</span>
             <NavLink
               to="/login"
-              className="cursor-pointer text-indigo-600 hover:text-indigo-800"
+              className="cursor-pointer text-indigo-400 hover:text-indigo-600"
             >
               Đăng Nhập
             </NavLink>
