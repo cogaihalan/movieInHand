@@ -52,11 +52,17 @@ export const datVe = (danhSachVe) => {
 
 export const datGhe = (ghe, maLichChieu) => {
   return async (dispatch, getState) => {
-    dispatch({ type: DAT_VE, gheDuocChon: ghe });
-    const danhSachGheDangDat = JSON.stringify(
-      getState().ManageTicketReducer.danhSachGheDangDat
-    );
-    const taiKhoan = getState().ManageUserReducer.userLogin.taiKhoan;
-    connection.invoke("datGhe", taiKhoan, danhSachGheDangDat, maLichChieu);
+    //Đưa thông tin ghế lên reducer
+    await dispatch({
+      type: DAT_VE,
+      gheDuocChon: ghe,
+    });
+    //Call api về backend
+    let danhSachGheDangDat = getState().ManageTicketReducer.danhSachGheDangDat;
+    let taiKhoan = getState().ManageUserReducer.userLogin.taiKhoan;
+    //Biến mảng thành chuỗi
+    let update = JSON.stringify(danhSachGheDangDat);
+    //Call api signalR
+    connection.invoke("datGhe", taiKhoan, update, maLichChieu);
   };
 };

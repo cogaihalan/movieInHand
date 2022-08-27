@@ -13,10 +13,16 @@ import {
   HUY_GHE,
   SHOW_GHE_KHACH_DAT,
 } from "../../redux/constants/ManageTicketConstants";
-import { CloseOutlined, UserOutlined, CheckOutlined } from "@ant-design/icons";
-import { Tabs } from "antd";
+import {
+  CloseOutlined,
+  UserOutlined,
+  CheckOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
+import { Tabs, Button } from "antd";
 import { layThongTinTaiKhoan } from "../../redux/actions/ManageUserActions";
 import { connection } from "../..";
+import { NavLink } from "react-router-dom";
 const { TabPane } = Tabs;
 function Checkout(props) {
   const dispatch = useDispatch();
@@ -28,6 +34,7 @@ function Checkout(props) {
   const user = useSelector(
     (stateList) => stateList.ManageUserReducer.userLogin
   );
+
   useEffect(() => {
     dispatch(getTicketRoom(ticketRoomID));
     // render lại khi có 1 client đặt vé thành công
@@ -37,18 +44,26 @@ function Checkout(props) {
     // Gọi lên server để lấy dữ liệu phòng vé khi client chọn ghế
     connection.invoke("loadDanhSachGhe", ticketRoomID);
     // render ra các ghế mà khach chọn
-    connection.on("loadDanhSachGheDaDat", (dsGheDaDat) => {
+    connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
       // Lấy ra các users không phải mình và lọc mảng lấy ra danh sách ghế
-      const dsGheDaDatUpdate = [...dsGheDaDat]
-        .filter((item) => item.taiKhoan !== user.taiKhoan)
-        .reduce((result, item) => {
-          const arrGhe = JSON.parse(item.danhSachGhe);
-          return [...result, ...arrGhe];
-        }, []);
-      dispatch({
-        type: SHOW_GHE_KHACH_DAT,
-        danhSachGheKhachDat: dsGheDaDatUpdate,
-      });
+      dsGheKhachDat = dsGheKhachDat.filter(
+        (item) => item.taiKhoan !== user.taiKhoan
+      );
+      //Bước 2 gộp danh sách ghế khách đặt ở tất cả user thành 1 mảng chung
+
+      let arrGheKhachDat = dsGheKhachDat.reduce((result, item) => {
+        let arrGhe = JSON.parse(item.danhSachGhe);
+
+        return [...result, ...arrGhe];
+      }, []);
+      arrGheKhachDat = _.uniqBy(arrGheKhachDat, "maGhe");
+      //Đưa dữ liệu ghế khách đặt cập nhật redux
+      console.log(arrGheKhachDat);
+
+      // dispatch({
+      //   type: SHOW_GHE_KHACH_DAT,
+      //   danhSachGheKhachDat: arrGheKhachDat,
+      // });
     });
     window.addEventListener("beforeunload", clearGhe);
     return () => {
@@ -58,7 +73,7 @@ function Checkout(props) {
   }, []);
 
   const clearGhe = () => {
-    connection.on("huyGhe", user.taiKhoan, ticketRoomID);
+    connection.on("huyDat", user.taiKhoan, ticketRoomID);
   };
   const renderDanhSachGhe = () => {
     return danhSachGhe?.map((ghe, index) => {
@@ -108,15 +123,23 @@ function Checkout(props) {
               className={`${style["trapezoid"]} ${style["trapezoid-up"]}`}
             ></div>
             <div>{renderDanhSachGhe()}</div>
-            <div className="mt-1 flex justify-center">
+            <div className="mt-1 w-4/5 flex justify-center ">
               <table className="divide-y divide-gray-200">
                 <thead className="bg-gray-50  ">
                   <tr>
-                    <th className="border-r-2 p-1 border-r-white">Ghế chưa đặt</th>
-                    <th className="border-r-2 p-1 border-r-white">Ghế đang đặt</th>
+                    <th className="border-r-2 p-1 border-r-white ">
+                      Ghế chưa đặt
+                    </th>
+                    <th className="border-r-2 p-1 border-r-white">
+                      Ghế đang đặt
+                    </th>
                     <th className="border-r-2 p-1 border-r-white">Ghế vip</th>
-                    <th className="border-r-2 p-1 border-r-white">Ghế đã đặt</th>
-                    <th className="border-r-2 p-1 border-r-white">Ghế mình đặt</th>
+                    <th className="border-r-2 p-1 border-r-white">
+                      Ghế đã đặt
+                    </th>
+                    <th className="border-r-2 p-1 border-r-white">
+                      Ghế mình đặt
+                    </th>
                     <th className="border-r-2 p-1 border-r-white">
                       Ghế khách đang đặt
                     </th>
@@ -126,38 +149,33 @@ function Checkout(props) {
                   <tr>
                     <td>
                       <button className="ghe  text-center">
-                        {" "}
-                        <CheckOutlined />{" "}
-                      </button>{" "}
+                        <CheckOutlined />
+                      </button>
                     </td>
                     <td>
-                      <button className="ghe gheDangDat  text-center">
-                        {" "}
+                      <button className="ghe gheDangDat text-center">
                         <CheckOutlined />
-                      </button>{" "}
+                      </button>
                     </td>
                     <td>
-                      <button className="ghe gheVIP  text-center">
+                      <button className="ghe gheVIP text-center">
                         <CheckOutlined />
-                      </button>{" "}
+                      </button>
                     </td>
                     <td>
                       <button className="ghe gheDaDat  text-center">
-                        {" "}
-                        <CheckOutlined />{" "}
-                      </button>{" "}
+                        <CheckOutlined />
+                      </button>
                     </td>
                     <td>
                       <button className="ghe gheUserDat  text-center">
-                        {" "}
-                        <UserOutlined />{" "}
-                      </button>{" "}
+                        <UserOutlined />
+                      </button>
                     </td>
                     <td>
                       <button className="ghe gheKhachDat  text-center">
-                        {" "}
-                        <CheckOutlined />{" "}
-                      </button>{" "}
+                        <CheckOutlined />
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -324,13 +342,28 @@ function TicketResult(props) {
   );
 }
 export default function Ticket(props) {
+  const user = useSelector((state) => state.ManageUserReducer.userLogin);
   const dispatch = useDispatch();
+  const extraTabs = (
+    <div className="flex items-center">
+      <NavLink
+        to="/profile"
+        className="self-center px-8 py-3 rounded text-white"
+      >
+        <span className="text-lg text-black font-bold">{user.hoTen}</span>
+      </NavLink>
+      <NavLink to="/">
+        <HomeOutlined style={{ fontSize: "24px" }} />
+      </NavLink>
+    </div>
+  );
   const { tabActive } = useSelector(
     (stateList) => stateList.ManageTicketReducer
   );
   return (
     <div className="px-12 py-6  ">
       <Tabs
+        tabBarExtraContent={extraTabs}
         tabPosition="top"
         defaultActiveKey="1"
         onChange={(key) => {

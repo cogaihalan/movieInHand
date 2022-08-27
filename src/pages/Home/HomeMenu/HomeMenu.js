@@ -1,9 +1,11 @@
 import React, { Fragment } from "react";
 import { Tabs } from "antd";
 import moment from "moment";
+import { NavLink } from "react-router-dom";
 const { TabPane } = Tabs;
 export default function HomeMenu(props) {
-  const { cinemasSystem } = props;  const renderCinemasSystem = () => {
+  const { cinemasSystem } = props;
+  const renderCinemasSystem = () => {
     return cinemasSystem?.map((cinema, index) => {
       return (
         <TabPane
@@ -62,14 +64,15 @@ export default function HomeMenu(props) {
                                 .slice(0, 12)
                                 ?.map((filmTimeline, index) => {
                                   return (
-                                    <button
-                                      className=" border rounded-md p-2 font-semibold bg-slate-500 text-white"
+                                    <NavLink
+                                      to={`/checkout/${filmTimeline.maLichChieu}`}
+                                      className=" border rounded-md p-2 font-semibold bg-slate-500 text-white hover:text-slate-300"
                                       key={index}
                                     >
                                       {moment(
                                         filmTimeline.ngayChieuGioChieu
                                       ).format("hh:mm A")}
-                                    </button>
+                                    </NavLink>
                                   );
                                 })}
                             </div>
