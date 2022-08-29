@@ -71,7 +71,7 @@ export default function Header() {
             <NavLink
               to="/home"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1  text-white "
+              className="flex items-center px-4 -mb-1  text-md text-white "
             >
               {t("Home")}
             </NavLink>
@@ -80,7 +80,7 @@ export default function Header() {
             <NavLink
               to="/contact"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1  text-white"
+              className="flex items-center px-4 -mb-1  text-md text-white"
             >
               {t("Contact")}
             </NavLink>
@@ -89,7 +89,7 @@ export default function Header() {
             <NavLink
               to="news"
               activeClassName="border-b-2 border-indigo-300"
-              className="flex items-center px-4 -mb-1  text-white"
+              className="flex items-center px-4 -mb-1  text-md text-white"
             >
               {t("News")}
             </NavLink>

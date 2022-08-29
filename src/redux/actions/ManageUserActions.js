@@ -28,8 +28,8 @@ export const dangNhap = (userLogin) => {
   return async (dispatch) => {
     try {
       const { data, status } = await QLUserService.dangNhap(userLogin);
+      localStorage.setItem(TOKEN, data.content.accessToken);
       localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
-      localStorage.setItem(TOKEN, JSON.stringify(data.content.accessToken));
       if (status === STATUS_CODE.SUCCESS) {
         dispatch({
           type: SIGN_IN,

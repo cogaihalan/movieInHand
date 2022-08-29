@@ -17,3 +17,22 @@ export const getListFilms = () => {
     }
   };
 };
+
+export const uploadFilm = (formData) => {
+  return async (dispatch) => {
+    try {
+      const { data, status } = await QLFilmsService.themPhimUploadHinh(
+        formData
+      );
+      console.log({ data, status });
+      // if (status === STATUS_CODE.SUCCESS) {
+      //   dispatch({
+      //     type: GET_LIST_FILMS,
+      //     data: data.content,
+      //   });
+      // }
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+};

@@ -8,9 +8,9 @@ class ManageFilmsService extends BaseService {
   layDanhSachPhim() {
     return this.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}`);
   }
-//   layDanhSachPhimPhanTrang(){
-//     return this.get
-//   }
+  themPhimUploadHinh(formData) {
+    return this.post("/api/QuanLyPhim/ThemPhimUploadHinh", formData);
+  }
 }
 
 export const QLFilmsService = new ManageFilmsService();

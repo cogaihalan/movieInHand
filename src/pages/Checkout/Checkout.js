@@ -60,10 +60,10 @@ function Checkout(props) {
       //Đưa dữ liệu ghế khách đặt cập nhật redux
       console.log(arrGheKhachDat);
 
-      // dispatch({
-      //   type: SHOW_GHE_KHACH_DAT,
-      //   danhSachGheKhachDat: arrGheKhachDat,
-      // });
+      dispatch({
+        type: SHOW_GHE_KHACH_DAT,
+        danhSachGheKhachDat: arrGheKhachDat,
+      });
     });
     window.addEventListener("beforeunload", clearGhe);
     return () => {
@@ -123,26 +123,16 @@ function Checkout(props) {
               className={`${style["trapezoid"]} ${style["trapezoid-up"]}`}
             ></div>
             <div>{renderDanhSachGhe()}</div>
-            <div className="mt-1 w-4/5 flex justify-center ">
-              <table className="divide-y divide-gray-200">
-                <thead className="bg-gray-50  ">
+            <div className="mt-1 w-4/5 flex justify-center">
+              <table className="divide-y divide-gray-200 text-white">
+                <thead className=" ">
                   <tr>
-                    <th className="border-r-2 p-1 border-r-white ">
-                      Ghế chưa đặt
-                    </th>
-                    <th className="border-r-2 p-1 border-r-white">
-                      Ghế đang đặt
-                    </th>
-                    <th className="border-r-2 p-1 border-r-white">Ghế vip</th>
-                    <th className="border-r-2 p-1 border-r-white">
-                      Ghế đã đặt
-                    </th>
-                    <th className="border-r-2 p-1 border-r-white">
-                      Ghế mình đặt
-                    </th>
-                    <th className="border-r-2 p-1 border-r-white">
-                      Ghế khách đang đặt
-                    </th>
+                    <th className="border-r-2 p-1  ">Ghế chưa đặt</th>
+                    <th className="border-r-2 p-1 ">Ghế đang đặt</th>
+                    <th className="border-r-2 p-1 ">Ghế vip</th>
+                    <th className="border-r-2 p-1 ">Ghế đã đặt</th>
+                    <th className="border-r-2 p-1 ">Ghế mình đặt</th>
+                    <th className="border-r-2 p-1 ">Ghế khách đang đặt</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -183,7 +173,7 @@ function Checkout(props) {
             </div>
           </div>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-3 text-white">
           <h3 className="text-center text-green-400 text-2xl">
             {danhSachGheDangDat
               ?.reduce((tongTien, item) => {
@@ -193,14 +183,23 @@ function Checkout(props) {
             VNĐ
           </h3>
           <hr />
-          <div className="film-info py-5 text-sm text-black">
-            <h3 className=" text-black text-2xl">{thongTinPhim?.tenPhim}</h3>
-            <p className=" mt-4 mb-2">Cụm Rạp : {thongTinPhim?.tenCumRap}</p>
-            <p className="mt-4 mb-2">Địa điểm : {thongTinPhim?.diaChi}</p>
-            <p>
-              Ngày chiếu : {thongTinPhim?.ngayChieu} - {thongTinPhim?.gioChieu}{" "}
-              {thongTinPhim?.tenRap}
-            </p>
+          <div className="film-info flex justify-start items-center py-5 text-sm gap-3 text-white">
+            <div>
+              <img
+                src={thongTinPhim?.hinhAnh}
+                style={{ width: "150px", height: "180px" }}
+                alt={thongTinPhim?.tenPhim}
+              />
+            </div>
+            <div className="text-white">
+              <h3 className=" text-white text-2xl">{thongTinPhim?.tenPhim}</h3>
+              <p className=" mt-4 mb-2">Cụm Rạp : {thongTinPhim?.tenCumRap}</p>
+              <p className="mt-4 mb-2">Địa điểm : {thongTinPhim?.diaChi}</p>
+              <p>
+                Ngày chiếu : {thongTinPhim?.ngayChieu} -{" "}
+                {thongTinPhim?.gioChieu} {thongTinPhim?.tenRap}
+              </p>
+            </div>
           </div>
           <hr />
           <div className="flex justify-between text-xl items-center py-5">
@@ -241,10 +240,10 @@ function Checkout(props) {
             </table>
           </div>
           <hr />
-          <h4 className="user-info mt-3 py-3">Email</h4>
+          <h4 className="user-info text-white mt-3 py-3">Email</h4>
           <p className="pb-3">{user.email}</p>
           <hr />
-          <h4 className="user-info mt-3 py-3">Họ Tên</h4>
+          <h4 className="user-info text-white mt-3 py-3">Họ Tên</h4>
           <p className="pb-3">{user.hoTen}</p>
           <hr />
           <div className="">
@@ -271,21 +270,21 @@ function Checkout(props) {
   );
 }
 function TicketResult(props) {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(layThongTinTaiKhoan());
-  // }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(layThongTinTaiKhoan());
+  }, []);
   const { userDetail } = useSelector(
     (stateList) => stateList.ManageUserReducer
   );
   return (
-    <section className="text-gray-600 body-font">
+    <section className="text-white body-font">
       <div className="container px-6 mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white  uppercase">
             Lịch Sử Đặt Vé
           </h1>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Theo</p>
+          {/* <p className="lg:w-2/3 mx-auto leading-relaxed text-base">Theo </p> */}
         </div>
         <div className="flex flex-wrap -m-2">
           {userDetail.thongTinDatVe?.map((item, index) => {
@@ -304,13 +303,13 @@ function TicketResult(props) {
                     src={item.hinhAnh}
                   />
                   <div className="flex-grow">
-                    <h2 className="text-gray-900 title-font font-medium">
+                    <h2 className="text-white title-font font-medium">
                       {item.tenPhim}
                     </h2>
-                    <p className="text-gray-500">
+                    <p className="text-yellow-100">
                       Địa điểm : {tenRap} {tenHeThongRap}{" "}
                     </p>
-                    <div className="text-gray-500 flex gap-4">
+                    <div className="text-yellow-400 flex gap-4">
                       <div>Số lượng : {listSeatsEachFilm.length}</div>
                       <div>Đơn giá : {item.giaVe.toLocaleString()}</div>
                       <div>
@@ -320,11 +319,11 @@ function TicketResult(props) {
                         ).toLocaleString()}
                       </div>
                     </div>
-                    <div className="text-gray-500 flex gap-2">
+                    <div className="text-white flex gap-2">
                       Ghế :{" "}
                       {listSeatsEachFilm.map((item) => (
                         <div
-                          className="text-sm text-slate-700"
+                          className="text-md font-bold text-yellow-500 "
                           key={item.tenGhe}
                         >
                           {item.tenGhe}
@@ -350,10 +349,10 @@ export default function Ticket(props) {
         to="/profile"
         className="self-center px-8 py-3 rounded text-white"
       >
-        <span className="text-lg text-black font-bold">{user.hoTen}</span>
+        <span className="text-lg text-white font-bold">{user.hoTen}</span>
       </NavLink>
       <NavLink to="/">
-        <HomeOutlined style={{ fontSize: "24px" }} />
+        <HomeOutlined style={{ fontSize: "24px", color: "yellowgreen" }} />
       </NavLink>
     </div>
   );
@@ -361,7 +360,7 @@ export default function Ticket(props) {
     (stateList) => stateList.ManageTicketReducer
   );
   return (
-    <div className="px-12 py-6  ">
+    <div className="px-12 py-6 checkout">
       <Tabs
         tabBarExtraContent={extraTabs}
         tabPosition="top"

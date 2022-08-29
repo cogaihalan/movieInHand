@@ -30,13 +30,13 @@ export default function HomeMenu(props) {
                         className=" w-16 h-16"
                       />
                       <div className="cinema-info text-left">
-                        <div className="text-sm font-bold">
+                        <div className="text-sm font-bold text-stone-50">
                           {cumRap.tenCumRap}
                         </div>
-                        <div className="text-xs font-semibold text-gray-500 my-2">
+                        <div className="text-xs font-semibold text-slate-400 my-2">
                           {cumRap.diaChi}
                         </div>
-                        <p className="text-amber-500">Chi tiết</p>
+                        <p className="text-amber-600">Chi tiết</p>
                       </div>
                     </div>
                   }
@@ -45,7 +45,7 @@ export default function HomeMenu(props) {
                   {cumRap.danhSachPhim.slice(0, 5)?.map((film, index) => {
                     return (
                       <Fragment key={index}>
-                        <div className="flex justify-start   gap-4 mb-4">
+                        <div className="flex justify-start gap-4 mb-4">
                           <img
                             src={film.hinhAnh}
                             alt={film.tenPhim}
@@ -56,7 +56,7 @@ export default function HomeMenu(props) {
                             className=" w-20 h-20 rounded-full"
                           />
                           <div className="cinema-info">
-                            <h3 className="text-lg font-semibold">
+                            <h3 className="text-lg font-semibold text-white">
                               {film.tenPhim}
                             </h3>
                             <div className="grid grid-cols-6 gap-3">
@@ -66,7 +66,7 @@ export default function HomeMenu(props) {
                                   return (
                                     <NavLink
                                       to={`/checkout/${filmTimeline.maLichChieu}`}
-                                      className=" border rounded-md p-2 font-semibold bg-slate-500 text-white hover:text-slate-300"
+                                      className=" border rounded-md p-2 font-semibold bg-slate-500 text-white hover:text-blue-300"
                                       key={index}
                                     >
                                       {moment(
@@ -91,7 +91,7 @@ export default function HomeMenu(props) {
   };
   return (
     <>
-      <div className="py-12">
+      <div className="py-12 home-menu">
         <Tabs className="w-3/4  " tabPosition="left">
           {renderCinemasSystem()}
         </Tabs>
