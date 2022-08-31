@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import React, { Fragment, useState } from "react";
-import { Route } from "react-router-dom";
+import { NavLink, Route } from "react-router-dom";
 import { history } from "../../App";
 const { Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -23,22 +23,24 @@ const items = [
   getItem("Users", "1", <UserOutlined />),
   getItem("Films", "2", <ProfileOutlined />, [
     getItem(
-      "Film",
+      "List Films",
       "3",
-      <FileOutlined
-        onClick={() => {
-          history.push("/admin/films");
-        }}
-      />
+      <NavLink
+        style={{ display: "flex", alignItems: "center" }}
+        to="/admin/films"
+      >
+        <FileOutlined />
+      </NavLink>
     ),
     getItem(
-      "Add film",
+      "Add Film",
       "4",
-      <PlusOutlined
-        onClick={() => {
-          history.push("/admin/films");
-        }}
-      />
+      <NavLink
+        style={{ display: "flex", alignItems: "center" }}
+        to="/admin/films/add"
+      >
+        <PlusOutlined />
+      </NavLink>
     ),
   ]),
   getItem("Showtimes", "5", <FundProjectionScreenOutlined />),

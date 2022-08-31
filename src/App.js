@@ -79,7 +79,7 @@ function App() {
           Component={EditFilm}
         ></AdminTemplate>
         <AdminTemplate
-          path="/admin/showtimes"
+          path="/admin/films/showtimes/:id"
           exact
           Component={ShowTimes}
         ></AdminTemplate>

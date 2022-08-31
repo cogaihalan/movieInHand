@@ -11,6 +11,7 @@ import {
   hideLoadingAction,
 } from "../actions/LoadingActions";
 import { connection } from "../../index";
+import { history } from "../../App";
 export const getTicketRoom = (maLichChieu) => {
   return async (dispatch) => {
     try {
@@ -64,5 +65,16 @@ export const datGhe = (ghe, maLichChieu) => {
     let update = JSON.stringify(danhSachGheDangDat);
     //Call api signalR
     connection.invoke("datGhe", taiKhoan, update, maLichChieu);
+  };
+};
+
+export const taoLichChieu = (lichChieu) => {
+  return async (dispatch) => {
+    //Đưa thông tin ghế lên reducer
+    const { status } = QLTicketService.taoLichChieu(lichChieu);
+    if (status === STATUS_CODE.SUCCESS) {
+      history.push("/");
+    }
+    //Call api về backend
   };
 };

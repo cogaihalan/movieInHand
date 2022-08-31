@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  CalendarOutlined
+} from "@ant-design/icons";
 import { Popconfirm, Space, Table, Button, Input } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -115,6 +119,15 @@ export default function Films() {
                 <DeleteOutlined />
               </button>
             </Popconfirm>
+            <button
+              onClick={() => {
+                history.push(`/admin/films/showtimes/${film.maPhim}`);
+              }}
+              style={{ color: "white", borderRadius: "4px" }}
+              className="p-1 bg-green-500 text-xl "
+            >
+              <CalendarOutlined />
+            </button>
           </Space>
         );
       },

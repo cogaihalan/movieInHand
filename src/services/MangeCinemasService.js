@@ -10,6 +10,14 @@ class ManageCinemasService extends BaseService {
   layThongTinLichChieuPhim(filmID) {
     return this.get(`/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${filmID}`);
   }
+  layThongTinHeThongRap() {
+    return this.get("/api/QuanLyRap/LayThongTinHeThongRap");
+  }
+  layThongTinCumRapTheoHeThong(maHeThongRap) {
+    return this.get(
+      `/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maHeThongRap}`
+    );
+  }
 }
 
 export const QLCinemasService = new ManageCinemasService();
