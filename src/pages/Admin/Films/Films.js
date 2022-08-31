@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Popconfirm, Space, Table, Button, Input } from "antd";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import { history } from "../../../App";
 const { Search } = Input;
 export default function Films() {
   const dispatch = useDispatch();
+  let keySearch = useRef(null);
   useEffect(() => {
     dispatch(getListFilms());
   }, []);
@@ -17,7 +18,13 @@ export default function Films() {
     (stateList) => stateList.ManageFilmsReducer
   );
   const onSearch = (value) => console.log(value);
-  const handleSearch = () => {};
+  const handleSearch = (e) => {
+    keySearch.current = e.target.value;
+    if (keySearch.current) clearTimeout(keySearch.current);
+    setTimeout(() => {
+      dispatch(getListFilms(keySearch.current));
+    }, 750);
+  };
   const columns = [
     {
       title: "ID",
@@ -59,7 +66,7 @@ export default function Films() {
       title: "Mô Tả",
       dataIndex: "moTa",
       key: "moTa",
-      width: "20%",
+      width: "25%",
       sorter: (nextItem, item) => {
         const desc1 = nextItem.moTa?.trim().toLowerCase();
         const desc2 = item.moTa?.trim().toLowerCase();

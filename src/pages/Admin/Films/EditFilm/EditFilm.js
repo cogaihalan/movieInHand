@@ -23,7 +23,7 @@ const EditFilm = (props) => {
       tenPhim: filmDetail.tenPhim,
       trailer: filmDetail.trailer,
       moTa: filmDetail.moTa,
-      ngayKhoiChieu: filmDetail.ngayKhoiChieu,
+      ngayKhoiChieu: filmDetail?.ngayKhoiChieu,
       dangChieu: filmDetail.dangChieu,
       sapChieu: filmDetail.sapChieu,
       danhGia: filmDetail.danhGia,

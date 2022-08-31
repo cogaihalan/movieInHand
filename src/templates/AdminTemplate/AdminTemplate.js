@@ -22,8 +22,24 @@ function getItem(label, key, icon, children) {
 const items = [
   getItem("Users", "1", <UserOutlined />),
   getItem("Films", "2", <ProfileOutlined />, [
-    getItem("Film", "3", <FileOutlined />),
-    getItem("Add film", "4", <PlusOutlined />),
+    getItem(
+      "Film",
+      "3",
+      <FileOutlined
+        onClick={() => {
+          history.push("/admin/films");
+        }}
+      />
+    ),
+    getItem(
+      "Add film",
+      "4",
+      <PlusOutlined
+        onClick={() => {
+          history.push("/admin/films");
+        }}
+      />
+    ),
   ]),
   getItem("Showtimes", "5", <FundProjectionScreenOutlined />),
 ];

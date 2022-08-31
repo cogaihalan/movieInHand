@@ -5,10 +5,10 @@ import {
   GET_LIST_FILMS,
 } from "../constants/ManageFilmsConstants";
 import { history } from "../../App";
-export const getListFilms = () => {
+export const getListFilms = (keyword = "") => {
   return async (dispatch) => {
     try {
-      const { data, status } = await QLFilmsService.layDanhSachPhim();
+      const { data, status } = await QLFilmsService.layDanhSachPhim(keyword);
       if (status === STATUS_CODE.SUCCESS) {
         dispatch({
           type: GET_LIST_FILMS,
@@ -68,7 +68,7 @@ export const deleteFilm = (maPhim) => {
   return async (dispatch) => {
     try {
       await QLFilmsService.xoaPhim(maPhim);
-      dispatch(getListFilms())
+      dispatch(getListFilms());
     } catch (err) {
       console.log(err.response);
     }

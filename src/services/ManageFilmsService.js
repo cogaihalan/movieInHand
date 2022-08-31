@@ -5,8 +5,13 @@ class ManageFilmsService extends BaseService {
   layDanhSachBanner() {
     return this.get("/api/QuanLyPhim/LayDanhSachBanner");
   }
-  layDanhSachPhim() {
-    return this.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}`);
+  layDanhSachPhim(keyword = "") {
+    if (keyword === "")
+      return this.get(`/api/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}`);
+    else
+      return this.get(
+        `/api/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}&tenPhim=${keyword}`
+      );
   }
   themPhimUploadHinh(formData) {
     return this.post("/api/QuanLyPhim/ThemPhimUploadHinh", formData);
