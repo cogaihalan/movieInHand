@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Popconfirm, Space, Table, Button, Input } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { getListFilms } from "../../../redux/actions/ManageFilmActions";
+import {
+  deleteFilm,
+  getListFilms,
+} from "../../../redux/actions/ManageFilmActions";
 import { history } from "../../../App";
 const { Search } = Input;
 export default function Films() {
@@ -14,6 +17,7 @@ export default function Films() {
     (stateList) => stateList.ManageFilmsReducer
   );
   const onSearch = (value) => console.log(value);
+  const handleSearch = () => {};
   const columns = [
     {
       title: "ID",
@@ -81,7 +85,7 @@ export default function Films() {
           <Space>
             <button
               onClick={() => {
-                // Mở form edit
+                history.push(`/admin/films/edit/${film.maPhim}`);
               }}
               style={{ color: "white", borderRadius: "4px" }}
               className="p-1 bg-blue-500 text-xl "
@@ -90,7 +94,9 @@ export default function Films() {
             </button>
             <Popconfirm
               title="Are you sure to delete this project?"
-              onConfirm={() => {}}
+              onConfirm={() => {
+                dispatch(deleteFilm(film.maPhim));
+              }}
               onCancel={() => {}}
               okText="Yes"
               cancelText="No"
@@ -123,6 +129,7 @@ export default function Films() {
         className="my-2"
         placeholder="input search text"
         onSearch={onSearch}
+        onChange={handleSearch}
         enterButton
       />
       <Space

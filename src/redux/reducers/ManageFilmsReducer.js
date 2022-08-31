@@ -2,6 +2,7 @@ import {
   GET_LIST_FILMS,
   SET_FILMS_DANG_CHIEU,
   SET_FILMS_SAP_CHIEU,
+  GET_FILM_DETAIL,
 } from "../constants/ManageFilmsConstants";
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
   dangChieu: false,
   sapChieu: false,
   filterFilms: [],
+  filmDetail: {},
 };
 
 const ManageFilmsReducer = (state = initialState, action) => {
@@ -44,6 +46,8 @@ const ManageFilmsReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case GET_FILM_DETAIL:
+      return { ...state, filmDetail: action.filmDetail };
     default:
       return { ...state };
   }

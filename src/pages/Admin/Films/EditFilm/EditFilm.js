@@ -1,39 +1,54 @@
 import { DatePicker, Form, Input, InputNumber, Switch } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { uploadFilm } from "../../../../redux/actions/ManageFilmActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilmDetail,
+  updateFilm,
+} from "../../../../redux/actions/ManageFilmActions";
 import { GROUPID } from "../../../../utils/settings/config";
-const AddFilm = () => {
+const EditFilm = (props) => {
   const [componentSize, setComponentSize] = useState("default");
-  const [imgSrc, setImgSrc] = useState(null);
+  const { filmDetail } = useSelector(
+    (stateList) => stateList.ManageFilmsReducer
+  );
+  const [imgSrc, setImgSrc] = useState("");
   const dispatch = useDispatch();
   const filmFormik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      tenPhim: "",
-      trailer: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      dangChieu: false,
-      sapChieu: false,
-      danhGia: 0,
-      hot: false,
-      hinhAnh: {},
+      maNhom: GROUPID,
+      maPhim: filmDetail.maPhim,
+      tenPhim: filmDetail.tenPhim,
+      trailer: filmDetail.trailer,
+      moTa: filmDetail.moTa,
+      ngayKhoiChieu: filmDetail.ngayKhoiChieu,
+      dangChieu: filmDetail.dangChieu,
+      sapChieu: filmDetail.sapChieu,
+      danhGia: filmDetail.danhGia,
+      hot: filmDetail.hot,
+      hinhAnh: null,
     },
     onSubmit: (values) => {
       const formData = new FormData();
-      values.maNhom = GROUPID;
       for (let key in values) {
         if (key !== "hinhAnh") {
           formData.append(key, values[key]);
         } else {
-          formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          if (values.hinhAnh !== null) {
+            formData.append("File", values.hinhAnh, values.hinhAnh.name);
+          }
         }
       }
-      dispatch(uploadFilm(formData));
+      dispatch(updateFilm(formData));
     },
   });
+  useEffect(() => {
+    const filmID = props.match.params.id;
+
+    dispatch(getFilmDetail(filmID));
+  }, []);
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
   };
@@ -46,18 +61,18 @@ const AddFilm = () => {
   const handleChangeFieldValue = (name) => {
     return (value) => filmFormik.setFieldValue(name, value);
   };
-  const handleChangeFile = (e) => {
+  const handleChangeFile = async (e) => {
     let file = e.target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
+    await filmFormik.setFieldValue("hinhAnh", file);
     reader.onload = (e) => {
       setImgSrc(e.target.result);
     };
-    filmFormik.setFieldValue("hinhAnh", file);
   };
   return (
     <div className="p-4">
-      <h4 className="font-bold text-xl text-slate-800">Add New Film</h4>
+      <h4 className="font-bold text-xl text-slate-800">Update Film</h4>
       <Form
         labelCol={{
           span: 4,
@@ -71,21 +86,32 @@ const AddFilm = () => {
         }}
         onSubmitCapture={filmFormik.handleSubmit}
         onValuesChange={onFormLayoutChange}
-        size={componentSize}
       >
         <Form.Item label="Tên phim">
-          <Input name="tenPhim" onChange={filmFormik.handleChange} />
+          <Input
+            name="tenPhim"
+            onChange={filmFormik.handleChange}
+            value={filmFormik.values.tenPhim}
+          />
         </Form.Item>
         <Form.Item label="Trailer">
-          <Input name="trailer" onChange={filmFormik.handleChange} />
+          <Input
+            name="trailer"
+            onChange={filmFormik.handleChange}
+            value={filmFormik.values.trailer}
+          />
         </Form.Item>
         <Form.Item label="Mô tả">
-          <Input name="moTa" onChange={filmFormik.handleChange} />
+          <Input
+            name="moTa"
+            onChange={filmFormik.handleChange}
+            value={filmFormik.values.moTa}
+          />
         </Form.Item>
         <Form.Item label="Hình ảnh phim">
           <input name="hinhAnh" type="file" onChange={handleChangeFile} />
           <img
-            src={imgSrc}
+            src={imgSrc || filmDetail.hinhAnh}
             accept="image/*"
             alt="..."
             className="bg-slate-400 mt-2"
@@ -96,6 +122,7 @@ const AddFilm = () => {
           <DatePicker
             format={"DD/MM/YYYY"}
             onChange={handleChangeDatePicker}
+            value={moment(filmFormik.values.ngayKhoiChieu, "DD/MM/YYYY")}
             name="ngayKhoiChieu"
           />
         </Form.Item>
@@ -104,23 +131,33 @@ const AddFilm = () => {
             min={1}
             max={10}
             onChange={handleChangeFieldValue("danhGia")}
+            value={filmFormik.values.danhGia}
           />
         </Form.Item>
         <Form.Item label="Đang Chiếu" valuePropName="checked">
-          <Switch onChange={handleChangeFieldValue("dangChieu")} />
+          <Switch
+            onChange={handleChangeFieldValue("dangChieu")}
+            checked={filmFormik.values.dangChieu}
+          />
         </Form.Item>
         <Form.Item label="Sắp Chiếu" valuePropName="checked">
-          <Switch onChange={handleChangeFieldValue("sapChieu")} />
+          <Switch
+            onChange={handleChangeFieldValue("sapChieu")}
+            checked={filmFormik.values.sapChieu}
+          />
         </Form.Item>
         <Form.Item label="Hot" valuePropName="checked">
-          <Switch onChange={handleChangeFieldValue("hot")} />
+          <Switch
+            onChange={handleChangeFieldValue("hot")}
+            checked={filmFormik.values.hot}
+          />
         </Form.Item>
         <Form.Item label="Xác Nhận">
           <button
             className="py-1 px-3 border-sky-100 border-2 hover:border-sky-300 focus:border-sky-300  bg-white"
             type="submit"
           >
-            Thêm Phim
+            Cập nhật
           </button>
         </Form.Item>
       </Form>
@@ -128,4 +165,4 @@ const AddFilm = () => {
   );
 };
 
-export default AddFilm;
+export default EditFilm;

@@ -8,6 +8,7 @@ import {
 import { Layout, Menu } from "antd";
 import React, { Fragment, useState } from "react";
 import { Route } from "react-router-dom";
+import { history } from "../../App";
 const { Content, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -47,7 +48,12 @@ const AdminTemplate = (props) => {
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
               >
-                <div className="logo flex justify-center items-center my-3">
+                <div
+                  onClick={() => {
+                    history.push("/admin/films");
+                  }}
+                  className="logo flex justify-center items-center my-3"
+                >
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/906/906343.png"
                     alt="logo-admin"

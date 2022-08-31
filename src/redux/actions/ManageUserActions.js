@@ -10,14 +10,7 @@ import {
 export const dangKy = (newUser) => {
   return async (dispatch) => {
     try {
-      const { data, status } = await QLUserService.dangKy(newUser);
-      console.log({ data, status });
-      // if (status === STATUS_CODE.SUCCESS) {
-      // dispatch({
-      //   type: SIGN_UP,
-      //   newUser: data.content,
-      // });
-      // }
+      await QLUserService.dangKy(newUser);
     } catch (err) {
       console.log(err);
     }

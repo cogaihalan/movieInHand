@@ -17,6 +17,7 @@ import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
 import Films from "./pages/Admin/Films/Films";
 import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import ShowTimes from "./pages/Admin/ShowTimes/ShowTimes";
+import EditFilm from "./pages/Admin/Films/EditFilm/EditFilm";
 export const history = createBrowserHistory();
 function App() {
   return (
@@ -71,6 +72,11 @@ function App() {
           path="/admin/films/add"
           exact
           Component={AddFilm}
+        ></AdminTemplate>
+        <AdminTemplate
+          path="/admin/films/edit/:id"
+          exact
+          Component={EditFilm}
         ></AdminTemplate>
         <AdminTemplate
           path="/admin/showtimes"
